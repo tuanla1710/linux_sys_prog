@@ -9,8 +9,7 @@
 #define BUF_SIZE	256
 #define CHUNK_SIZE	50
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]){
 	int serv_sock;
 	struct sockaddr_in serv_addr, from_addr;
 	socklen_t addr_size;
@@ -23,34 +22,26 @@ int main(int argc, char* argv[])
 		exit(1);
 	}
 	
-	serv_sock=socket(PF_INET, SOCK_DGRAM, 0);
-	if(serv_sock == -1)
-	{
+	if((serv_sock=socket(PF_INET, SOCK_DGRAM, 0)) == -1){
 		perror("socket() error!!");
 		exit(1);
 	}
-
 	memset(&serv_addr, 0, sizeof(serv_addr));
 	serv_addr.sin_family=AF_INET;
 	serv_addr.sin_addr.s_addr=htonl(INADDR_ANY);
 	serv_addr.sin_port=htons(atoi(argv[1]));
 
-	if(bind(serv_sock, (struct sockaddr*) &serv_addr, sizeof(serv_addr))==-1 )
-	{
+	if(bind(serv_sock, (struct sockaddr*) &serv_addr, sizeof(serv_addr))==-1 )	{
 		perror("bind() error!!");
 		exit(1);
 	}
 
 	addr_size = sizeof(from_addr);
-#if 0
-	str_len=recvfrom(serv_sock, message, sizeof(message), 0, (struct sockaddr*)&from_addr, &addr_size);
-#else
 	memset(message, 0, sizeof(message));
 	while(recv_len=recvfrom(serv_sock, &message[idx], CHUNK_SIZE, 0, 
 										(struct sockaddr*)&from_addr, &addr_size))
 	{
-		if(recv_len==-1)
-		{
+		if(recv_len==-1){
 			perror("recvfrom() error!!");
 			exit(1);
 		} else {
@@ -63,8 +54,6 @@ int main(int argc, char* argv[])
 		if(str_len > (BUF_SIZE - CHUNK_SIZE))
 			break;
 	}
-#endif
-	
 	printf("Message from %s: %s\n", inet_ntoa(from_addr.sin_addr), message);  
 	close(serv_sock);
 	return 0;

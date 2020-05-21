@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 	int fd;
 	int i;
 	char data[]="This is Linux System Programming\n";
-	
+	umask(0);
 	// if((fd=open(argv[1], O_WRONLY|O_TRUNC)) == -1){
 	if((fd=open(argv[1], O_WRONLY|O_CREAT|O_APPEND, 0664)) == -1){
 	// if((fd=open(argv[1], O_WRONLY|O_CREAT|O_EXCL)) == -1){

@@ -11,22 +11,19 @@
 #include <netdb.h>
 
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 	int sockfd;
 	struct sockaddr_in their_addr;
 	int numbytes;
 	char buf[80];
 
-	if(argc != 2)
-	{
+	if(argc != 2) 	{
 		fprintf(stderr, "usage : %s <server ip>\n", argv[0]);
 		exit(1);
 	}
 
 	//UDP socket open
-	if((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == -1)
-	{
+	if((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
 		perror("socket");
 		exit(1);
 	}
@@ -41,8 +38,7 @@ int main(int argc, char *argv[])
 		fgets(buf, 80, stdin);
 		// send data to server
 		if((numbytes = sendto(sockfd, buf, strlen(buf), 0, (struct sockaddr *)&their_addr, 
-															sizeof(struct sockaddr))) == -1)
-		{
+															sizeof(struct sockaddr))) == -1) {
 			perror("sendto");
 			exit(1);
 		}

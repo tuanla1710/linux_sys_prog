@@ -7,22 +7,19 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
 	int sockfd, numbytes; 
 	struct sockaddr_in their_addr;
 	char tx_buf[128], rx_buf[128];
 	int i;
 
-	if(argc != 2)
-	{
+	if(argc != 2){
 		fprintf(stderr, "usage : client serverip \n");
 		exit(1);
 	}
 
 	//socket open
-	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
-	{
+	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1){
 		perror("socket() error");
 		exit(1);
 	}
@@ -36,8 +33,7 @@ int main(int argc, char *argv[])
 	printf("[ %s ]\n", inet_ntoa(their_addr.sin_addr));
 
 	//connection request to server
-	if(connect(sockfd, (struct sockaddr *)&their_addr, sizeof(struct sockaddr)) == -1) 
-	{
+	if(connect(sockfd, (struct sockaddr *)&their_addr, sizeof(struct sockaddr)) == -1){
 		perror("connect() error");
 		exit(1);
 	}
@@ -49,18 +45,15 @@ int main(int argc, char *argv[])
 		//messge send to server
 		if(send(sockfd, tx_buf, strlen(tx_buf)+1, 0) == -1) perror("send");
 		//message rx wait from server
-		if((numbytes = recv(sockfd, rx_buf, sizeof(rx_buf), 0)) == -1) 
-		{
+		if((numbytes = recv(sockfd, rx_buf, sizeof(rx_buf), 0)) == -1){
 			perror("recv");
 			exit(1);
 		}
 		printf("----->Client Received : %s", rx_buf);
 		sleep((getpid()+i)%5);
 	}
-	
 	//close socket
 	close(sockfd);
-
 	return 0;
 }
 

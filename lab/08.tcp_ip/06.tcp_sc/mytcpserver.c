@@ -8,8 +8,7 @@
 #include <arpa/inet.h>   
 #include <sys/wait.h>
 
-int main(void)
-{
+int main(void){
 	int sockfd, new_fd, numbytes;
 	struct sockaddr_in my_addr;
 	struct sockaddr_in their_addr;
@@ -18,14 +17,12 @@ int main(void)
 	char tx_buf[128], rx_buf[128];
 	int i;
 
-	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
-	{
+	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1){
 		perror("socket() error");
 		exit(1);
 	}
 
-	if(setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1)
-	{
+	if(setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1){
 		perror("setsockopt() error");
 		exit(1);
 	}
@@ -36,41 +33,35 @@ int main(void)
 	memset(&(my_addr.sin_zero), '\0', 8);
 
 	//server ip & port number setting
-	if(bind(sockfd, (struct sockaddr *)&my_addr, sizeof(struct sockaddr)) == -1)
-	{
+	if(bind(sockfd, (struct sockaddr *)&my_addr, sizeof(struct sockaddr)) == -1){
 		perror("bind() error");
 		exit(1);
 	}
 
 	//client backlog setting
-	if(listen(sockfd, 5) == -1) 
-	{
+	if(listen(sockfd, 5) == -1){
 		perror("listen() error");
 		exit(1);
 	}
 
-	while(1)
-	{
+	while(1){
 		sin_size = sizeof(struct sockaddr_in);
 
 		//wait for client request
-		if((new_fd = accept(sockfd, (struct sockaddr *) &their_addr, &sin_size)) == -1)
-		{
+		if((new_fd = accept(sockfd, (struct sockaddr *) &their_addr, &sin_size)) == -1){
 			perror("accept() error");
 			continue;
 		}
 
 		printf("server : got connection from %s \n", inet_ntoa(their_addr.sin_addr));
 
-		if(!fork())
-		{
+		if(!fork()){
 			close(sockfd);
 			for(i=1; ; i++) {
 				memset(tx_buf, 0, sizeof(tx_buf));
 				memset(rx_buf, 0, sizeof(rx_buf));
 				//wait for rx data from client	
-				if((numbytes = recv(new_fd, rx_buf, sizeof(rx_buf), 0)) == -1) 
-				{
+				if((numbytes = recv(new_fd, rx_buf, sizeof(rx_buf), 0)) == -1){
 					perror("recv");
 					exit(1);
 				}
@@ -88,9 +79,7 @@ int main(void)
 		// close(new_fd);
 
 		waitpid(-1, NULL, WNOHANG);
-		
 	}
-
 	return 0;
 }
 

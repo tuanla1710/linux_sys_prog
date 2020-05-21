@@ -19,9 +19,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 	
-	sock=socket(PF_INET, SOCK_DGRAM, 0);
-	if(sock == -1) 
-	{
+	if((sock=socket(PF_INET, SOCK_DGRAM, 0)) == -1) {
 		perror("socket() error!!");
 		exit(1);
 	}

@@ -11,8 +11,7 @@ typedef struct _INFO {
 	float height;
 } INFO;
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
 	INFO data[5] = {"kim",20,170.1F,
 					"lee",25,180.3F,
 					"park",21,176.2F,
@@ -21,18 +20,17 @@ int main(int argc, char *argv[])
 	int fd;
 	int i;
 #if 1
-	if((fd=open(argv[1], O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP)) == -1)
-	// if((fd=open(argv[1], O_WRONLY|O_CREAT|O_TRUNC, 0664)) == -1)
-	if((fd=creat(argv[1], 0664)) == -1){
+	// if((fd=open(argv[1], O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP)) == -1) {
+	// if((fd=open(argv[1], O_WRONLY|O_CREAT|O_TRUNC, 0664)) == -1) {
+	umask(0);
+	if((fd=creat(argv[1], 0666)) == -1) {
 #else
-	if((fd=open(argv[1], O_WRONLY|O_CREAT)) == -1)
+	if((fd=open(argv[1], O_WRONLY|O_CREAT)) == -1) {
 #endif
-	{
 		perror("open");
 		exit(1);
 	}
-	for(i=0; i<5; i++)
-	{
+	for(i=0; i<5; i++) {
 		if(write(fd, &data[i], sizeof(INFO)) == -1) {
 			perror("write");
 			close(fd);

@@ -7,12 +7,10 @@
 
 #define BUF_SIZE 30
 
-int main(int argc, char *argv[])
-{
-	int serv_sd, clnt_sd;
+int main(int argc, char *argv[]){
+	int serv_sd, clnt_sd, read_cnt;;
 	FILE * fp;
 	char buf[BUF_SIZE];
-	int read_cnt;
 	
 	struct sockaddr_in serv_adr, clnt_adr;
 	socklen_t clnt_adr_sz;
@@ -36,11 +34,9 @@ int main(int argc, char *argv[])
 	clnt_adr_sz=sizeof(clnt_adr);    
 	clnt_sd=accept(serv_sd, (struct sockaddr*)&clnt_adr, &clnt_adr_sz);
 	
-	while(1)
-	{
+	while(1){
 		read_cnt=fread((void*)buf, 1, BUF_SIZE, fp);
-		if(read_cnt<BUF_SIZE)
-		{
+		if(read_cnt<BUF_SIZE){
 			write(clnt_sd, buf, read_cnt);
 			break;
 		}
