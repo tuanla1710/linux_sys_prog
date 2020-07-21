@@ -10,8 +10,9 @@
 int main(int argc, char *argv[]){
 	
 	char buf[BUF_SIZE];
-	int fd1, fd2, ret, openflags, numRead;
+	int fd1, fd2, openflags, numRead;
 	mode_t perms;
+	struct stat ret;
 	
 	if(argc != 3) {
 		printf("Usage: %s <source filename> <destination filename>\n", argv[0]);
@@ -23,8 +24,9 @@ int main(int argc, char *argv[]){
 		exit(2);
 	}
 	
-	openflags = O_WRONLY|O_CREAT|O_TRUNC;
-	perms = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;	//rw-rw-rw-
+	lstat(argv[1], &ret);
+	perms = ret.st_mode & (S_IRWXU | S_IRWXG | S_IRWXO);
+	openflags = O_WRONLY|O_CREAT;
 	
 	if((fd2 = open(argv[2], openflags, perms)) == -1){
 		perror("file open2 error");

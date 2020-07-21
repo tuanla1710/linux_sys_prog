@@ -6,15 +6,13 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-int main(int argc, char *argv[])
-{
-	int sock;
+int main(int argc, char *argv[]){
+	int sock, len;
 	struct sockaddr_in serv_addr;
 	socklen_t addr_size;
-	int len;
-
-	char message[]="Hello World! Hi~~~ Hahahaha^^ Hohoho...";
-	char message1[]="Message boundary is the separation between two messages being sent over a protocol.";
+	char message[]="Hello World! Good morning";
+	char message1[]="Message boundary is the separation between two messages \
+						being sent over a protocol.";
 	char message2[]="UDP preserves message boundaries, but TCP does not";
 
 	if(argc!=3){
@@ -22,9 +20,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 	
-	sock=socket(PF_INET, SOCK_DGRAM, 0);
-	if(sock == -1) 
-	{
+	if(sock=socket(PF_INET, SOCK_DGRAM, 0) == -1){
 		perror("socket() error!!");
 		exit(1);
 	}

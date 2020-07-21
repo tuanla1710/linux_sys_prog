@@ -6,12 +6,6 @@
 #include <fcntl.h>
 #include <errno.h>
 
-typedef struct _INFO {
-	char name[20];
-	int age;
-	float height;
-} INFO;
-
 #define BUF_SIZE	4096
 
 int main(int argc, char *argv[]){

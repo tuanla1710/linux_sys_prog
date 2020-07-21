@@ -7,8 +7,7 @@
 
 #define BUF_SIZE 1024
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
 	int sock;
 	char message[BUF_SIZE];
 	int str_len, recv_len, recv_cnt;
@@ -20,8 +19,7 @@ int main(int argc, char *argv[])
 	}
 	
 	sock=socket(PF_INET, SOCK_STREAM, 0);   
-	if(sock==-1)
-	{
+	if(sock==-1){
 		perror("socket() error!!");
 		exit(1);
 	}
@@ -31,15 +29,13 @@ int main(int argc, char *argv[])
 	serv_adr.sin_addr.s_addr=inet_addr(argv[1]);
 	serv_adr.sin_port=htons(atoi(argv[2]));
 	
-	if(connect(sock, (struct sockaddr*)&serv_adr, sizeof(serv_adr))==-1)
-	{
+	if(connect(sock, (struct sockaddr*)&serv_adr, sizeof(serv_adr))==-1){
 		perror("connect() error!!");
 		exit(1);
 	}
 	else puts("Connected...........");
 	
-	while(1) 
-	{
+	while(1){
 		fputs("Input message(Q to quit): ", stdout);
 		fgets(message, BUF_SIZE, stdin);
 		
@@ -49,11 +45,9 @@ int main(int argc, char *argv[])
 		str_len=send(sock, message, strlen(message), 0);
 		
 		recv_len=0;
-		while(recv_len<str_len)
-		{
+		while(recv_len<str_len){
 			recv_cnt=recv(sock, &message[recv_len], BUF_SIZE-1, 0);
-			if(recv_cnt==-1)
-			{
+			if(recv_cnt==-1){
 				perror("recv() error!!");
 				exit(1);
 			}

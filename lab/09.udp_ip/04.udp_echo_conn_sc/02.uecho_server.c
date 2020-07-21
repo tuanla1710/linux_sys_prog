@@ -7,8 +7,7 @@
 
 #define BUF_SIZE 30
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 	int serv_sock;
 	char message[BUF_SIZE+1];
 	int str_len;
@@ -20,9 +19,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 	
-	serv_sock=socket(PF_INET, SOCK_DGRAM, 0);
-	if(serv_sock==-1)
-	{
+	if((serv_sock=socket(PF_INET, SOCK_DGRAM, 0)) == -1) {
 		perror("socket() error!!");
 		exit(1);
 	}
@@ -32,14 +29,12 @@ int main(int argc, char *argv[])
 	serv_adr.sin_addr.s_addr=htonl(INADDR_ANY);
 	serv_adr.sin_port=htons(atoi(argv[1]));
 	
-	if(bind(serv_sock, (struct sockaddr*)&serv_adr, sizeof(serv_adr))==-1)
-	{
+	if(bind(serv_sock, (struct sockaddr*)&serv_adr, sizeof(serv_adr))==-1) {
 		perror("bind() error!!");
 		exit(1);
 	}
 
-	while(1) 
-	{
+	while(1) {
 		clnt_adr_sz=sizeof(clnt_adr);
 		memset(&message, 0, sizeof(message));
 		str_len=recvfrom(serv_sock, message, BUF_SIZE, 0, (struct sockaddr*)&clnt_adr, &clnt_adr_sz);

@@ -14,6 +14,7 @@ int main(int argc, char *argv[]){
 	signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
 	signal(SIGSTOP, handler);
+	signal(SIGTERM, SIG_IGN);
 	while(1){
 		printf("signal interrupt test --- %d\n", repeat);
 		sleep(1);

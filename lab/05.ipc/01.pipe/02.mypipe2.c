@@ -25,7 +25,8 @@ int main(void){
 			for(i=0; i<10; i++) {
 				sprintf(&buf[0], "Hello, Parent #%d", i+1);
 				write(pd[1], buf, strlen(buf));
-				for(timer1=time(NULL); time(NULL)<timer1 + 3;)
+				// sleep(2);
+				for(timer1=time(NULL); time(NULL)<timer1 + 1;)
 					continue;
 			}
 			close(pd[1]);
@@ -33,9 +34,12 @@ int main(void){
 			break;
 		default:				//parent
 			close(pd[1]);
-			for(i=0; i<10; i++) {
+			for(i=0; ; i++) {
 				memset(&buf[0], 0, MSGSIZE);
 				len = read(pd[0], buf, MSGSIZE);
+				if(len == 0){
+					break;
+				}
 				buf[len] = '\0';
 				printf("PARENT: %s\n", buf);
 			}

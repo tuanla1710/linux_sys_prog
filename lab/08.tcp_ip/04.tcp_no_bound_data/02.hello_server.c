@@ -6,8 +6,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]){
 	int serv_sock, clnt_sock;
 	struct sockaddr_in serv_addr, clnt_addr;
 	socklen_t clnt_addr_size;
@@ -22,14 +21,12 @@ int main(int argc, char* argv[])
 	}
 	
 	serv_sock=socket(PF_INET, SOCK_STREAM, 0);
-	if(serv_sock == -1)
-	{
+	if(serv_sock == -1)	{
 		perror("socket() error!!");
 		exit(1);
 	}
 
-	if(setsockopt(serv_sock, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1)
-	{
+	if(setsockopt(serv_sock, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1){
 		perror("setsockopt() error!!");
 		exit(1);
 	}
@@ -39,22 +36,19 @@ int main(int argc, char* argv[])
 	serv_addr.sin_addr.s_addr=htonl(INADDR_ANY);
 	serv_addr.sin_port=htons(atoi(argv[1]));
 	
-	if(bind(serv_sock, (struct sockaddr*) &serv_addr, sizeof(serv_addr))==-1 )
-	{
+	if(bind(serv_sock, (struct sockaddr*) &serv_addr, sizeof(serv_addr))==-1 ){
 		perror("bind() error!!");
 		exit(1);
 	}
 	
-	if(listen(serv_sock, 5)==-1)
-	{
+	if(listen(serv_sock, 5)==-1){
 		perror("listen() error!!");
 		exit(1);
 	}
 	
 	clnt_addr_size=sizeof(clnt_addr);  
 	clnt_sock=accept(serv_sock, (struct sockaddr*)&clnt_addr,&clnt_addr_size);
-	if(clnt_sock==-1)
-	{
+	if(clnt_sock==-1){
 		perror("accept() error!!");
 		exit(1);
 	}
@@ -64,11 +58,9 @@ int main(int argc, char* argv[])
 #else
 	printf("Press Enter to receive !!!!\n");
 	getchar();
-	while( recv_len=recv(clnt_sock, &message[idx], 5, 0) )
-	{
+	while( recv_len=recv(clnt_sock, &message[idx], 5, 0) ){
 		printf("Receiving index %d(%d)\n", idx, recv_len);
-		if(recv_len==-1)
-		{
+		if(recv_len==-1){
 			perror("recv() error!!");
 			exit(1);
 		} else {

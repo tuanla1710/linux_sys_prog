@@ -7,15 +7,12 @@
 
 #define BUF_SIZE 30
 
-int main(int argc, char *argv[])
-{
-	int sd;
+int main(int argc, char *argv[]){
+	int sd, ret, read_cnt;
 	FILE *fp;
-	int ret;
-	
 	char buf[BUF_SIZE];
-	int read_cnt;
 	struct sockaddr_in serv_adr;
+	
 	if(argc!=3) {
 		printf("Usage: %s <IP> <port>\n", argv[0]);
 		exit(1);

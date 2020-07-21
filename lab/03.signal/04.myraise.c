@@ -5,10 +5,7 @@
 
 void handler(int signo){
 	printf("Received Signal no - %d\n", signo);
-	while(1){
-		printf("Press Control-C\n");
-		sleep(1);
-	}
+	sleep(1);
 }
 
 int main(int argc, char *argv[]){
